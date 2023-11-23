@@ -40,7 +40,15 @@ func main() {
 	e.Server.Addr = fmt.Sprintf(":%v", GetEnv("PORT", "7000"))
 	e.HideBanner = true
 
-	e.Use(middleware.Logger())
+	logFile, err := os.OpenFile("/home/isucon/app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
+	defer logFile.Close()
+
+	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		Output: logFile,
+	}))
 	e.Use(middleware.Recover())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("trapnomura"))))
 
