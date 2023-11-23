@@ -887,7 +887,7 @@ func (h *handlers) GetCourseDetail(c echo.Context) error {
 	query := "SELECT `courses`.*, `users`.`name` AS `teacher`" +
 		" FROM `courses`" +
 		" JOIN `users` ON `courses`.`teacher_id` = `users`.`id`" +
-		" WHERE `courses`.`id` = ?"
+		" WHERE `courses`.`id` = ? LIMIT 1"
 	if err := h.DB.Get(&res, query, courseID); err != nil && err != sql.ErrNoRows {
 		c.Logger().Error(err)
 		return c.NoContent(http.StatusInternalServerError)
