@@ -1512,7 +1512,7 @@ func (h *handlers) GetAnnouncementDetail(c echo.Context) error {
 		" FROM `unread_announcements`" +
 		" INNER JOIN `announcements` ON `unread_announcements`.`announcement_id` = `announcements`.`id`" +
 		" INNER JOIN `courses` ON `courses`.`id` = `announcements`.`course_id`" +
-		" WHERE `unread_announcements`.`id` = ?" +
+		" WHERE `unread_announcements`.`announcement_id` = ?" +
 		" AND `unread_announcements`.`user_id` = ?"
 	if err := tx.Get(&announcement, query, announcementID, userID); err != nil && err != sql.ErrNoRows {
 		c.Logger().Error(err)
